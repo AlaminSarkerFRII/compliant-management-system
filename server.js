@@ -1,8 +1,13 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
-
 const PORT = process.env.PORT || 5000;
+
+const authRoute = require("./src/routes/authRoutes");
+
+dotenv.config();
+
+// routes
 
 
 const app = express();
@@ -17,6 +22,11 @@ app.use(express.json());
 
 
 // Routes
+
+
+app.use("/api/auth", authRoute)
+
+
 
 app.get('/', (req, res) => {
     res.send('Welcome to Complaint Management Service');

@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  id        Int   @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role @default(CUSTOMER) // Enum: ADMIN, CUSTOMER, EXECUTIVE
+  createdAt DateTime @default(now())
+  tickets   Ticket[] @relation("CustomerTickets")
+  assignedTickets  Ticket[] @relation("AssignedTickets")
+
+  replaies  Reply[]
+}
+
+
+
+model Ticket {
+  id             Int    @id @default(autoincrement())
+  subject         String
+  description     String
+  status          TicketStatus @default(OPEN) // Enum: OPEN ,IN_PROGRESS, RESOLVED , CLOSED
+  createdAt       DateTime @default(now())
+
+  customerId     Int
+  customer       User @relation("CustomerTickets" , fields: [customerId], references: [id])
+
+  assignedToId  Int?
+  assignedTo    User? @relation("AssignedTickets" , fields: [assignedToId], references: [id])
+
+  replaies      Reply[]
+
+}
+
+// --------------------------- Reply Model-------------------------------------
+
+model Reply {
+  id        Int      @id @default(autoincrement())
+  message   String
+  createdAt DateTime @default(now())
+
+  userId    Int
+  user      User  @relation(fields: [userId], references: [id])
+
+  ticketId  Int
+  ticket    Ticket @relation(fields: [ticketId], references: [id])
+}
+
+
+enum Role {
+  ADMIN
+  CUSTOMER
+  EXECUTIVE
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
