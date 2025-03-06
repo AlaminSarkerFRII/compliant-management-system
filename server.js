@@ -4,10 +4,14 @@ const cors = require("cors");
 const PORT = process.env.PORT || 5000;
 
 const authRoute = require("./src/routes/authRoutes");
+
 const {
   autheticateUser,
   authorizedAdmin,
 } = require("./src/middlewares/authMiddleware");
+
+const ticketRoutes = require("./src/routes/ticketRoutes");
+const adminRoutes = require("./src/routes/adminRoutes");
 
 dotenv.config();
 
@@ -43,6 +47,10 @@ app.get("/api/admin", autheticateUser, authorizedAdmin, (req, res) => {
     // success: true,
   });
 });
+
+app.use("/api/tickets", autheticateUser, ticketRoutes);
+
+app.use("/api/admin", authorizedAdmin, adminRoutes);
 
 // testing routes
 
