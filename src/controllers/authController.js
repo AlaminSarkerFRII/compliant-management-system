@@ -1,4 +1,4 @@
-const becrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
 require("dotenv").config();
@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
 
     // password check
 
-    const isValidPassword = await becrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
       return res.status(401).json({ message: "Invalid password" });
