@@ -12,11 +12,29 @@ exports.createNewTicket = async (req, res) => {
   }
 
   try {
+    // Find Admin and Assign to Admin
+
+    const admin = await prisma.user.findFirst({
+      where: { role: "ADMIN" },
+    });
+
+    if (!admin) {
+      return res
+        .status(404)
+        .json({ message: "No admin found, unable to assign ticket" });
+    }
+
     const ticket = await prisma.ticket.create({
       data: {
         subject,
         description,
         customerId: req.user.userId,
+        assignedToId: admin.id,
+      },
+      include: {
+        assignedTo: {
+          select: { role: true },
+        },
       },
     });
 
@@ -63,5 +81,3 @@ exports.deleteTicket = async (req, res) => {
       .json({ message: "Error deleting ticket", error: error.message });
   }
 };
-
-

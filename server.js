@@ -12,6 +12,7 @@ const {
 
 const ticketRoutes = require("./src/routes/ticketRoutes");
 const adminRoutes = require("./src/routes/adminRoutes");
+const replyRoutes = require("./src/routes/replyRoutes");
 
 dotenv.config();
 
@@ -48,9 +49,13 @@ app.get("/api/admin", autheticateUser, authorizedAdmin, (req, res) => {
   });
 });
 
-app.use("/api/tickets", autheticateUser, ticketRoutes);
+app.use("/api/tickets", autheticateUser, ticketRoutes, replyRoutes);
 
 app.use("/api/admin", authorizedAdmin, adminRoutes);
+
+// reply routes
+
+// app.use("/api/tickets", replyRoutes);
 
 // testing routes
 

@@ -12,5 +12,4 @@ router.post("/create", createNewTicket);
 router.get("/my-tickets", getMyTickets);
 router.delete("/:id", deleteTicket);
 
-
 module.exports = router;

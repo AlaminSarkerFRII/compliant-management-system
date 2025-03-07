@@ -12,8 +12,6 @@ const autheticateUser = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  console.log(token, "\ntoken");
-
   if (!token) {
     return res
       .status(401)
@@ -22,11 +20,9 @@ const autheticateUser = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(decoded);
     req.user = decoded;
     next();
   } catch (error) {
-    console.log(error.message, "Error decoding Message");
     return res.status(401).json({ message: "Invalid or expaired token" });
   }
 };
