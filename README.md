@@ -7,7 +7,6 @@ This system is a Support Ticketing System where customers can submit complaints,
 - **Backend**: Node.js, Express.js, Prisma ORM, MySQL
 - **Frontend**: React.js (Planned for Future Implementation)
 - **Authentication**: JWT (JSON Web Token)
-- **Deployment**: DigitalOcean (or any cloud provider)
 
 ## Setup Guide
 
