@@ -53,6 +53,11 @@ app.use("/api/tickets", autheticateUser, ticketRoutes, replyRoutes);
 
 app.use("/api/admin", authorizedAdmin, adminRoutes);
 
+// ======== get all tickets =================
+
+
+
+
 // reply routes
 
 // app.use("/api/tickets", replyRoutes);
